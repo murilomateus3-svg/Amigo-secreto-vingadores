@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: amigo-secreto-dos-vingadores
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        sync: false

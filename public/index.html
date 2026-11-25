@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amigo Secreto dos Vingadores</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f7edff;--bg1:#f3e8ff;--bg2:#ffe4f2;--card:#ffffff;--tx:#2b1042;--mut:#8b6fa6;--ac:#d12fc0;--line:#ecd9f8;
+--grad:linear-gradient(135deg,#7c3aed,#ec4899)}
+@media (prefers-color-scheme:dark){:root{--bg:#170b29;--bg1:#1a0b30;--bg2:#3a0f3f;--card:#27143e;--tx:#f9eeff;--mut:#bba3d6;--ac:#f472b6;--line:#41265f;--grad:linear-gradient(135deg,#8b5cf6,#ec4899)}}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg1) linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+main{max-width:560px;margin:0 auto;padding:18px 14px 40px}
+h1{margin:0;font-size:27px;text-align:center;line-height:1.2;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.sub{text-align:center;color:var(--mut);font-size:14px;margin:6px 0 18px}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--grad);color:#fff;margin-left:6px;vertical-align:middle}
+h2{font-size:16px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:0 4px 18px rgba(124,58,237,.08)}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;background:var(--grad);color:#fff;font-weight:700;cursor:pointer}
+button.g{background:var(--line);color:var(--tx)}
+button:disabled{opacity:.45;cursor:default}
+select,input,textarea{font:inherit;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--tx);margin-bottom:8px}
+textarea{resize:vertical;min-height:84px}
+label.l{display:block;font-size:13px;color:var(--mut);margin:2px 0 4px}
+.mut{color:var(--mut);font-size:13px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pc{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.pc:last-child{border-bottom:0}
+.av{width:42px;height:42px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.pi{flex:1;min-width:0}
+.pi b{font-size:16px}
+.sz{display:inline-block;font-size:12px;font-weight:800;padding:1px 8px;border-radius:99px;background:var(--line);margin-left:6px}
+.lk{font-size:14px;color:var(--mut);margin-top:2px;white-space:pre-wrap;word-break:break-word}
+.result{margin-top:12px;text-align:center;padding:18px 12px;border-radius:16px;background:var(--grad);color:#fff;animation:flip .8s cubic-bezier(.2,.8,.2,1) both}
+.result .rn{font-size:30px;font-weight:800;margin:4px 0}
+.result .lk{color:#fff;opacity:.92}
+.result .sz{background:rgba(255,255,255,.25)}
+.foot{text-align:center;margin-top:24px}
+.foot button{background:none;color:var(--mut);font-weight:500;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;animation:fade .2s both}
+.sheet{background:var(--bg);width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:90vh;overflow:auto;animation:sheet .3s cubic-bezier(.2,.8,.2,1) both}
+.sheet h3{margin:0 0 12px;text-align:center;font-size:20px}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes flip{from{opacity:0;transform:perspective(600px) rotateX(-70deg) scale(.9)}to{opacity:1;transform:none}}
+#app.anim>*{animation:up .45s cubic-bezier(.2,.7,.2,1) both}
+#app.anim>*:nth-child(2){animation-delay:.07s}
+#app.anim>*:nth-child(3){animation-delay:.14s}
+#app.anim>*:nth-child(4){animation-delay:.21s}
+@media (prefers-reduced-motion:reduce){#app.anim>*,.result,.sheet,.modal{animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <h1>🛡️ Amigo Secreto dos Vingadores</h1>
+  <div class="sub" id="sub">Carregando…</div>
+  <div id="app"></div>
+  <div id="modal"></div>
+  <div class="foot"><button id="auth"></button></div>
+</main>
+<script>
+const SIZES = ["PP", "P", "M", "G", "GG", "XG"];
+const app = document.getElementById("app");
+const authBtn = document.getElementById("auth");
+let S = null, revealed = null;
+let token = null;
+try { token = localStorage.getItem("amigo-token"); } catch (e) {}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const $ = id => document.getElementById(id);
+const sizeOpts = sel => '<option value="">Tamanho de roupa…</option>' + SIZES.map(s => `<option ${s === sel ? "selected" : ""}>${s}</option>`).join("");
+const badge = s => s ? `<span class="sz">${esc(s)}</span>` : "";
+
+let animT = null;
+function playAnim() {
+  clearTimeout(animT);
+  app.classList.remove("anim"); void app.offsetWidth; app.classList.add("anim");
+  animT = setTimeout(() => app.classList.remove("anim"), 900);
+}
+
+const KEEP = ["fn", "fp", "fs", "fl", "rsel", "rpin", "inf"];
+function render() {
+  if (!S) return;
+  const adm = !!token, n = S.people.length;
+  const keep = {}; KEEP.forEach(id => { if ($(id)) keep[id] = $(id).value; });
+  const ae = document.activeElement, fid = ae && KEEP.includes(ae.id) ? ae.id : null;
+  const pos = fid && ae.selectionStart != null ? ae.selectionStart : null;
+
+  $("sub").innerHTML = (S.drawn ? "Sorteio feito! Descubra quem você tirou 🤫" : n + (n === 1 ? " herói inscrito" : " heróis inscritos") + " · cadastros abertos")
+    + (adm ? '<span class="badge">organizador</span>' : "");
+  authBtn.textContent = adm ? "sair do modo organizador" : "🔒 sou o organizador";
+
+  let h = "";
+  if (adm) h += `<div><h2>📣 Informações do evento</h2><div class="card">
+      <textarea id="inf" maxlength="500" placeholder="Data, local, valor sugerido do presente…">${esc(S.info)}</textarea>
+      <button data-a="info" style="width:100%">Salvar informações</button></div></div>`;
+  else if (S.info) h += `<div><h2>📣 Informações do evento</h2><div class="card" style="white-space:pre-wrap">${esc(S.info)}</div></div>`;
+
+  if (S.drawn) {
+    h += `<div><h2>🎁 Quem eu tirei?</h2><div class="card">
+      <select id="rsel">${S.people.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select>
+      <input id="rpin" type="password" inputmode="numeric" maxlength="4" placeholder="Seu PIN de 4 números">
+      <button data-a="reveal" style="width:100%">Revelar meu amigo secreto 🤫</button>
+      <div class="mut" id="rfb" style="margin-top:6px"></div>
+      ${revealed ? `<div class="result"><div>Seu amigo secreto é</div><div class="rn">${esc(revealed.name)}</div>${badge(revealed.size)}
+        <div class="lk">${revealed.likes ? esc(revealed.likes) : "Não escreveu o que gosta."}</div></div>
+        <button class="g" data-a="hide" style="width:100%;margin-top:10px">Esconder</button>` : ""}
+    </div></div>`;
+  } else {
+    h += `<div><h2>⚡ Entrar no amigo secreto</h2><div class="card">
+      <label class="l">Seu nome</label><input id="fn" maxlength="30" placeholder="Ex.: Tales">
+      <div class="row2"><div><label class="l">Tamanho de roupa</label><select id="fs">${sizeOpts("")}</select></div>
+      <div><label class="l">PIN (4 números)</label><input id="fp" type="password" inputmode="numeric" maxlength="4" placeholder="••••"></div></div>
+      <label class="l">O que você gosta e tals</label>
+      <textarea id="fl" maxlength="300" placeholder="Hobbies, cor favorita, time, comidas, estilo de roupa, o que você NÃO quer ganhar…"></textarea>
+      <button data-a="join" style="width:100%">Entrar no sorteio</button>
+      <div class="mut" id="ffb" style="margin-top:6px">O PIN serve para você ver quem tirou depois do sorteio e para editar seu cadastro.</div></div></div>`;
+  }
+
+  if (adm) h += `<div><h2>🎲 Sorteio</h2><div class="card">${S.drawn
+    ? `<div class="mut" style="margin-bottom:8px">O sorteio já foi feito. O site não mostra o resultado para você.</div><button class="g" data-a="reset" style="width:100%">🔄 Refazer sorteio</button>`
+    : `<button data-a="draw" style="width:100%" ${n < 3 ? "disabled" : ""}>🎲 Sortear amigo secreto</button>${n < 3 ? '<div class="mut" style="margin-top:6px">Precisa de pelo menos 3 pessoas.</div>' : ""}`}
+    </div></div>`;
+
+  h += `<div><h2>🦸 Os heróis (${n})</h2><div class="card">`;
+  if (!n) h += `<div class="mut">Ninguém se inscreveu ainda. Seja o primeiro herói!</div>`;
+  S.people.forEach(p => {
+    h += `<div class="pc" data-p="${p.id}"><div class="av">${esc(p.name.charAt(0).toUpperCase())}</div>
+      <div class="pi"><b>${esc(p.name)}</b>${badge(p.size)}<div class="lk">${p.likes ? esc(p.likes) : "—"}</div></div></div>`;
+  });
+  h += `</div>${n ? '<div class="mut" style="text-align:center">Toque num cartão para editar</div>' : ""}</div>`;
+
+  app.innerHTML = h;
+  Object.keys(keep).forEach(id => { if ($(id) && keep[id]) $(id).value = keep[id]; });
+  if (fid && $(fid)) { $(fid).focus(); try { $(fid).setSelectionRange(pos, pos); } catch (e) {} }
+}
+
+async function api(url, body, method) {
+  const res = await fetch(url, {
+    method: method || "POST",
+    headers: { "Content-Type": "application/json", "x-admin-token": token || "" },
+    body: method === "DELETE" ? undefined : JSON.stringify(body || {})
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "erro");
+  return data;
+}
+function logout() { token = null; try { localStorage.removeItem("amigo-token"); } catch (e) {} render(); }
+
+app.addEventListener("click", async e => {
+  const card = e.target.closest("[data-p]");
+  if (card && !e.target.closest("button")) { openEdit(card.dataset.p); return; }
+  const b = e.target.closest("button"); if (!b) return;
+  const a = b.dataset.a;
+  try {
+    if (a === "join") {
+      const name = $("fn").value.trim();
+      if (!name) { $("ffb").textContent = "Coloca seu nome."; return; }
+      await api("/api/people", { name, size: $("fs").value, pin: $("fp").value, likes: $("fl").value });
+      ["fn", "fp", "fl"].forEach(id => $(id).value = ""); $("fs").value = "";
+      $("ffb").textContent = "Você entrou, " + name + "! 🎉 Guarde seu PIN.";
+    } else if (a === "reveal") {
+      revealed = await api("/api/reveal", { id: $("rsel").value, pin: $("rpin").value });
+      $("rpin").value = ""; render();
+    } else if (a === "hide") { revealed = null; render(); }
+    else if (a === "info") { await api("/api/info", { info: $("inf").value }); alert("Informações salvas!"); }
+    else if (a === "draw") {
+      if (confirm("Sortear agora? Depois disso ninguém novo consegue entrar.")) { await api("/api/draw"); playAnim(); }
+    } else if (a === "reset") {
+      if (confirm("Refazer o sorteio? O resultado atual será apagado.")) { revealed = null; await api("/api/draw/reset"); }
+    }
+  } catch (err) {
+    const t = $(a === "join" ? "ffb" : "rfb");
+    if (t) t.textContent = "Não deu: " + err.message; else alert("Não deu: " + err.message);
+  }
+});
+
+/* ---------- editar cadastro ---------- */
+function openEdit(id) {
+  const p = S.people.find(x => x.id === id); if (!p) return;
+  const adm = !!token;
+  $("modal").innerHTML = `<div class="modal" data-close="1"><div class="sheet"><h3>Editar cadastro</h3>
+    <label class="l">Nome</label><input id="mn" maxlength="30" value="${esc(p.name)}">
+    <label class="l">Tamanho de roupa</label><select id="ms">${sizeOpts(p.size)}</select>
+    <label class="l">O que você gosta e tals</label><textarea id="ml" maxlength="300">${esc(p.likes)}</textarea>
+    ${adm ? "" : '<label class="l">Seu PIN</label><input id="mp" type="password" inputmode="numeric" maxlength="4" placeholder="••••">'}
+    <button data-m="save" data-id="${p.id}" style="width:100%;margin-bottom:8px">Salvar</button>
+    ${adm ? `<button class="g" data-m="del" data-id="${p.id}" data-name="${esc(p.name)}" style="width:100%;margin-bottom:8px">🗑 Remover ${esc(p.name)}</button>` : ""}
+    <button class="g" data-close="1" style="width:100%">Cancelar</button>
+    <div class="mut" id="mfb" style="margin-top:8px;text-align:center"></div></div></div>`;
+}
+$("modal").addEventListener("click", async e => {
+  const b = e.target.closest("button");
+  if (e.target.classList.contains("modal") || (b && b.dataset.close)) { $("modal").innerHTML = ""; return; }
+  if (!b || !b.dataset.m) return;
+  try {
+    if (b.dataset.m === "save") {
+      await api("/api/people/" + b.dataset.id + "/update", { name: $("mn").value, size: $("ms").value, likes: $("ml").value, pin: $("mp") ? $("mp").value : "" });
+      $("modal").innerHTML = "";
+    } else if (b.dataset.m === "del") {
+      if (confirm("Remover " + b.dataset.name + "? Se o sorteio já foi feito, ele será apagado.")) {
+        await api("/api/people/" + b.dataset.id, null, "DELETE"); revealed = null; $("modal").innerHTML = "";
+      }
+    }
+  } catch (err) { $("mfb").textContent = "Não deu: " + err.message; }
+});
+
+authBtn.addEventListener("click", async () => {
+  if (token) return logout();
+  const password = prompt("Senha do organizador:");
+  if (!password) return;
+  try {
+    token = (await api("/api/login", { password })).token;
+    try { localStorage.setItem("amigo-token", token); } catch (e) {}
+    render();
+  } catch (err) { alert("Senha errada."); }
+});
+
+fetch("/api/state").then(r => r.json()).then(d => { S = d; render(); playAnim(); }).catch(() => { $("sub").textContent = "Não consegui carregar. Tente de novo."; });
+const es = new EventSource("/api/events");
+es.onmessage = ev => {
+  const was = S && S.drawn;
+  S = JSON.parse(ev.data);
+  if (was && !S.drawn) revealed = null;
+  render();
+};
+</script>
+</body>
+</html>
